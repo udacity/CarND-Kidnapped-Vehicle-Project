@@ -45,7 +45,7 @@ Success! Your particle filter passed!
 The directory structure of this repository is as follows:
 
 ```
-project
+root
 |   build.sh
 |   clean.sh
 |   CMakeLists.txt
