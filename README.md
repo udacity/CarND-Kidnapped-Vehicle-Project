@@ -2,7 +2,7 @@
 This repository contains all the code needed to complete the final project for the Localization course in Udacity's Self-Driving Car Nanodegree.
 
 #### Submission
-All you will submit is your completed version of `particle_filter.cpp`, which is located in the `src` directory.
+All you will submit is your completed version of `particle_filter.cpp`, which is located in the `src` directory. You should probably do a `git pull` before submitting to verify that your project passes the most up-to-date version of the grading code (there are some parameters in `src/main.cpp` which govern the requirements on accuracy and run time.)
 
 ## Project Introduction
 In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data. 
@@ -99,5 +99,13 @@ These files contain observation data for all "observable" landmarks. Here observ
 > **NOTE**
 > The vehicle's coordinate system is NOT the map coordinate system. Your 
 > code will have to handle this transformation.
+
+## Success Criteria
+If your particle filter passes the current grading code (you can make sure you have the current version at any time by doing a `git pull`), then you should pass! 
+
+The two things the grading code is looking for are:
+
+1. **Accuracy**: your particle filter should localize vehicle position and yaw to within the values specified in the parameters `max_translation_error` and `max_yaw_error` in `src/main.cpp`.
+2. **Performance**: your particle filter should complete execution within the time specified by `max_runtime` in `src/main.cpp`.
 
 
