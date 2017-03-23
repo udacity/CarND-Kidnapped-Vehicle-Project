@@ -27,8 +27,7 @@ class ParticleFilter {
 	// Number of particles to draw
 	int num_particles; 
 	
-	// Set of current particles
-	std::vector<Particle> particles;
+	
 	
 	// Flag, if filter is initialized
 	bool is_initialized;
@@ -38,6 +37,9 @@ class ParticleFilter {
 	
 public:
 	
+	// Set of current particles
+	std::vector<Particle> particles;
+
 	// Constructor
 	// @param M Number of particles
 	ParticleFilter() : num_particles(0), is_initialized(false) {}
@@ -92,15 +94,6 @@ public:
 	 *   the new set of particles.
 	 */
 	void resample();
-
-	/*
-	 * mean_error Gives the weighted average absolute error for all particles.
-	 * @param gt_x Ground truth x position [m]
-	 * @param gt_y Ground truth y position [m]
-	 * @param gt_theta Ground truth yaw angle (wrt y-axis, clockwise positive) [rad]
-	 * @output Pointer to an array containing the x, y, theta error.
-	 */
-	double * weighted_mean_error(double gt_x, double gt_y, double gt_theta);
 	
 	/*
 	 * write Writes particle positions to a file.

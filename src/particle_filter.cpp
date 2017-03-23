@@ -13,7 +13,8 @@
 #include "particle_filter.h"
 
 void ParticleFilter::init(double x, double y, double theta, double std[]) {
-	// TODO: Set the number of particles. Initialize all particles to first position and all weights to 1. 
+	// TODO: Set the number of particles. Initialize all particles to first position (based on estimates of 
+	//   x, y, theta and their uncertainties from GPS) and all weights to 1. 
 	// Add random Gaussian noise to each particle.
 	// NOTE: Consult particle_filter.h for more information about this method (and others in this file).
 
@@ -44,8 +45,6 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   Keep in mind that this transformation requires both rotation AND translation (but no scaling).
 	//   The following is a good resource:
 	//   https://www.willamette.edu/~gorr/classes/GeneralGraphics/Transforms/transforms2d.htm
-
-
 }
 
 void ParticleFilter::resample() {
@@ -54,14 +53,6 @@ void ParticleFilter::resample() {
 	//   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
 
 }
-
-double * ParticleFilter::weighted_mean_error(double gt_x, double gt_y, double gt_theta) {
-	// TODO: Calculate the weighted mean error of the particle filter.
-	static double error[3];
-
-	return error;
-}
-
 
 void ParticleFilter::write(std::string filename) {
 	// You don't need to modify this file.
