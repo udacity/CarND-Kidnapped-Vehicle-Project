@@ -11,7 +11,7 @@ set_source_files_properties(${SRCS} PROPERTIES COMPILE_FLAGS -std=c++0x)
 add_executable(particle_filter ${SRCS})
 
 # Use C++11
-set(SRCS src/solutions/main_sol.cpp src/solutions/particle_filter_sol.cpp)
+set(SRCS src/main.cpp src/particle_filter_sol.cpp)
 set_source_files_properties(${SRCS} PROPERTIES COMPILE_FLAGS -std=c++0x)
 
 # Create the executable
