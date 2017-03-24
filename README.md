@@ -7,8 +7,6 @@ All you will submit is your completed version of `particle_filter.cpp`, which is
 ## Project Introduction
 In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data. 
 
-Your particle filter should use this data to maintain a best guess (and associated uncertainty) for the vehicle's x position, y position, and yaw angle.
-
 ## Running the Code
 Once you have this repository on your machine, `cd` into the repository's root directory and run the following commands from the command line:
 
@@ -68,7 +66,6 @@ root
     |   map.h
     |   particle_filter.cpp
     |   particle_filter.h
-    |   print_samples.cpp
 ```
 
 The only file you should modify is `particle_filter.cpp` in the `src` directory. The file contains the scaffolding of a `ParticleFilter` class and some associated methods. Read through the code, the comments, and the header file `particle_filter.h` to get a sense for what this code is expected to do.
