@@ -75,11 +75,14 @@ If you are interested, take a look at `src/main.cpp` as well. This file contains
 ## Inputs to the Particle Filter
 You can find the inputs to the particle filter in the `data` directory. 
 
-#### The Map 
+#### The Map*
 `map_data.txt` includes the position of landmarks (in meters) on an arbitrary Cartesian coordinate system. Each row has three columns
 1. x position
 2. y position
 3. landmark id
+
+> * Map data provided by 3D Mapping Solutions GmbH.
+
 
 #### Control Data
 `control_data.txt` contains rows of control data. Each row corresponds to the control data for the corresponding time step. The two columns represent
@@ -104,5 +107,6 @@ The two things the grading code is looking for are:
 
 1. **Accuracy**: your particle filter should localize vehicle position and yaw to within the values specified in the parameters `max_translation_error` and `max_yaw_error` in `src/main.cpp`.
 2. **Performance**: your particle filter should complete execution within the time specified by `max_runtime` in `src/main.cpp`.
+
 
 
