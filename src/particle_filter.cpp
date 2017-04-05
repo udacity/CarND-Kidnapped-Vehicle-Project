@@ -67,3 +67,45 @@ void ParticleFilter::write(std::string filename) {
 	}
 	dataFile.close();
 }
+
+Particle ParticleFilter::SetAssociations(Particle particle, std::vector<int> associations, std::vector<double> sense_x, std::vector<double> sense_y)
+{
+	//particle: the particle to assign each listed association, and association's (x,y) world coordinates mapping to
+	// associations: The landmark id that goes along with each listed association
+	// sense_x: the associations x mapping already converted to world coordinates
+	// sense_y: the associations y mapping already converted to world coordinates
+
+	//Clear the previous associations
+	particle.associations.clear();
+	particle.sense_x.clear();
+	particle.sense_y.clear();
+
+	particle.associations= associations;
+ 	particle.sense_x = sense_x;
+ 	particle.sense_y = sense_y;
+
+ 	return particle;
+}
+
+void ParticleFilter::writeBest(Particle best,std::string filename, int time_step) {
+
+	// If first time step create txt file
+	if(time_step == 0)
+	{
+		std::ofstream outfile (filename);
+		outfile.close();
+	}
+	
+	// Append best particle's x,y,theta and associated observations to text file
+	std::ofstream dataFile;
+	dataFile.open(filename, std::ios::app);
+	
+	dataFile << best.x << " " << best.y << " " << best.theta;
+	for(int i = 0; i < best.sense_x.size(); i++)
+	{
+		dataFile << " " << best.associations[i] << " " << best.sense_x[i] << " " << best.sense_y[i];
+	}
+	dataFile << "\n";
+	
+	dataFile.close();
+}

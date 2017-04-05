@@ -126,6 +126,9 @@ int main() {
 				best_particle = particles[i];
 			}
 		}
+
+		pf.writeBest(best_particle, "./data/best_particles.txt", i);
+
 		double *avg_error = getError(gt[i].x, gt[i].y, gt[i].theta, best_particle.x, best_particle.y, best_particle.theta);
 
 		for (int j = 0; j < 3; ++j) {
