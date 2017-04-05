@@ -5,6 +5,8 @@ This repository contains all the code needed to complete the final project for t
 All you will submit is your completed version of `particle_filter.cpp`, which is located in the `src` directory. You should probably do a `git pull` before submitting to verify that your project passes the most up-to-date version of the grading code (there are some parameters in `src/main.cpp` which govern the requirements on accuracy and run time.)
 
 ## Project Introduction
+Your robot has been kidnapped and transported to a new location! Luckily it has a map of this location, a (noisy) GPS estimate of its initial location, and lots of (noisy) sensor and control data.
+
 In this project you will implement a 2 dimensional particle filter in C++. Your particle filter will be given a map and some initial localization information (analogous to what a GPS would provide). At each time step your filter will also get observation and control data. 
 
 ## Running the Code
@@ -23,14 +25,19 @@ Once you have this repository on your machine, `cd` into the repository's root d
 
 If everything worked you should see something like the following output:
 
-```
-.
-.
-.
 Time step: 2444
-Cumulative mean weighted error: x 0 y 0 yaw 0
-Runtime (sec): 0.187226
-This is the starter code. You haven't initialized your filter.
+Cumulative mean weighted error: x .1 y .1 yaw .02
+Runtime (sec): 38.187226
+Success! Your particle filter passed!
+
+```
+Otherwise you might get
+.
+.
+.
+Time step: 100
+Cumulative mean weighted error: x 39.8926 y 9.60949 yaw 0.198841
+Your x error, 39.8926 is larger than the maximum allowable error, 1
 ```
 
 Your job is to build out the methods in `particle_filter.cpp` until the last line of output says:
