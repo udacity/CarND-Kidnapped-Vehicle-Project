@@ -58,6 +58,10 @@ inline double * getError(double gt_x, double gt_y, double gt_theta, double pf_x,
 	error[0] = fabs(pf_x - gt_x);
 	error[1] = fabs(pf_y - gt_y);
 	error[2] = fabs(pf_theta - gt_theta);
+	error[2] = fmod(error[2], 2.0 * M_PI);
+	if (error[2] > M_PI) {
+		error[2] = 2.0 * M_PI - error[2];
+	}
 	return error;
 }
 
