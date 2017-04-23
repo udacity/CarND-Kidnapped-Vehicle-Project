@@ -25,16 +25,16 @@ Once you have this repository on your machine, `cd` into the repository's root d
 
 If everything worked you should see something like the following output:
 
+```
 Time step: 2444
 Cumulative mean weighted error: x .1 y .1 yaw .02
 Runtime (sec): 38.187226
 Success! Your particle filter passed!
+```
+
+Otherwise you might get:
 
 ```
-Otherwise you might get
-.
-.
-.
 Time step: 100
 Cumulative mean weighted error: x 39.8926 y 9.60949 yaw 0.198841
 Your x error, 39.8926 is larger than the maximum allowable error, 1
