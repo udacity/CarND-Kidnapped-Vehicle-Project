@@ -9,8 +9,15 @@
 #include <algorithm>
 #include <iostream>
 #include <numeric>
+#include <math.h> 
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <iterator>
 
 #include "particle_filter.h"
+
+using namespace std;
 
 void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// TODO: Set the number of particles. Initialize all particles to first position (based on estimates of 
@@ -58,16 +65,6 @@ void ParticleFilter::resample() {
 
 }
 
-void ParticleFilter::write(std::string filename) {
-	// You don't need to modify this file.
-	std::ofstream dataFile;
-	dataFile.open(filename, std::ios::app);
-	for (int i = 0; i < num_particles; ++i) {
-		dataFile << particles[i].x << " " << particles[i].y << " " << particles[i].theta << "\n";
-	}
-	dataFile.close();
-}
-
 Particle ParticleFilter::SetAssociations(Particle particle, std::vector<int> associations, std::vector<double> sense_x, std::vector<double> sense_y)
 {
 	//particle: the particle to assign each listed association, and association's (x,y) world coordinates mapping to
@@ -87,25 +84,30 @@ Particle ParticleFilter::SetAssociations(Particle particle, std::vector<int> ass
  	return particle;
 }
 
-void ParticleFilter::writeBest(Particle best,std::string filename, int time_step) {
-
-	// If first time step create txt file
-	if(time_step == 0)
-	{
-		std::ofstream outfile (filename);
-		outfile.close();
-	}
-	
-	// Append best particle's x,y,theta and associated observations to text file
-	std::ofstream dataFile;
-	dataFile.open(filename, std::ios::app);
-	
-	dataFile << best.x << " " << best.y << " " << best.theta;
-	for(int i = 0; i < best.sense_x.size(); i++)
-	{
-		dataFile << " " << best.associations[i] << " " << best.sense_x[i] << " " << best.sense_y[i];
-	}
-	dataFile << "\n";
-	
-	dataFile.close();
+string ParticleFilter::getAssociations(Particle best)
+{
+	vector<int> v = best.associations;
+	stringstream ss;
+    copy( v.begin(), v.end(), ostream_iterator<int>(ss, " "));
+    string s = ss.str();
+    s = s.substr(0, s.length()-1);  // get rid of the trailing space
+    return s;
+}
+string ParticleFilter::getSenseX(Particle best)
+{
+	vector<double> v = best.sense_x;
+	stringstream ss;
+    copy( v.begin(), v.end(), ostream_iterator<float>(ss, " "));
+    string s = ss.str();
+    s = s.substr(0, s.length()-1);  // get rid of the trailing space
+    return s;
+}
+string ParticleFilter::getSenseY(Particle best)
+{
+	vector<double> v = best.sense_y;
+	stringstream ss;
+    copy( v.begin(), v.end(), ostream_iterator<float>(ss, " "));
+    string s = ss.str();
+    s = s.substr(0, s.length()-1);  // get rid of the trailing space
+    return s;
 }

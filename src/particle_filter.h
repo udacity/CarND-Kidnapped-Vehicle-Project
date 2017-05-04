@@ -104,12 +104,9 @@ public:
 	 */
 	Particle SetAssociations(Particle particle, std::vector<int> associations, std::vector<double> sense_x, std::vector<double> sense_y);
 	
-	/*
-	 * write Writes particle positions to a file.
-	 * @param filename File to write particle positions to.
-	 */
-	void write(std::string filename);
-	void writeBest(Particle best,std::string filename, int time_step);
+	std::string getAssociations(Particle best);
+	std::string getSenseX(Particle best);
+	std::string getSenseY(Particle best);
 
 	/**
 	 * initialized Returns whether particle filter is initialized yet or not.
