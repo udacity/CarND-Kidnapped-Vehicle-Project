@@ -53,8 +53,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 	//   The following is a good resource for the theory:
 	//   https://www.willamette.edu/~gorr/classes/GeneralGraphics/Transforms/transforms2d.htm
 	//   and the following is a good resource for the actual equation to implement (look at equation 
-	//   3.33. Note that you'll need to switch the minus sign in that equation to a plus to account 
-	//   for the fact that the map's y-axis actually points downwards.)
+	//   3.33
 	//   http://planning.cs.uiuc.edu/node99.html
 }
 
