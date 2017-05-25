@@ -12,22 +12,24 @@ In this project you will implement a 2 dimensional particle filter in C++. Your 
 ## Running the Code
 This project involves the Term 2 Simulator which can be downloaded [here](https://github.com/udacity/self-driving-car-sim/releases)
 
-This repository includes two files that can be used to set up and intall uWebSocketIO for either Linux or Mac systems. For windows you can use either Docker, VMware, or even Windows 10 Bash on Ubuntu to install uWebSocketIO.
+This repository includes two files that can be used to set up and install uWebSocketIO for either Linux or Mac systems. For windows you can use either Docker, VMware, or even Windows 10 Bash on Ubuntu to install uWebSocketIO.
 
 Once the install for uWebSocketIO is complete, the main program can be built and ran by doing the following from the project top directory.
 
+```bash
 mkdir build
 cd build
 cmake ..
 make
 ./particle_filter
+```
 
-Note that the programs that need to be written to accomplish the project are src/particle_filter.cpp, and particle_filter.h
+Note that the programs that need to be written to accomplish the project are `src/particle_filter.cpp`, and `particle_filter.h`
 
-The program main.cpp has already been filled out, but feel free to modify it.
+The program `main.cpp` has already been filled out, but feel free to modify it.
 
-Here is the main protcol that main.cpp uses for uWebSocketIO in communicating with the simulator.
-
+Here is the main protocol that `main.cpp` uses for uWebSocketIO in communicating with the simulator.
+```
 INPUT: values provided by the simulator to the c++ program
 
 // sense noisy position data from the simulator
@@ -49,8 +51,9 @@ INPUT: values provided by the simulator to the c++ program
 ["sense_observations_x"] 
 
 ["sense_observations_y"] 
+```
 
-
+```
 OUTPUT: values provided by the c++ program to the simulator
 
 // best particle values used for calculating the error evaluation
@@ -72,7 +75,7 @@ OUTPUT: values provided by the c++ program to the simulator
 ["best_particle_sense_x"] <= list of sensed x positions
 
 ["best_particle_sense_y"] <= list of sensed y positions
-
+```
 
 Your job is to build out the methods in `particle_filter.cpp` until the simulator output says:
 
