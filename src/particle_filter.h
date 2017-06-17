@@ -108,6 +108,7 @@ public:
 	std::string getSenseX(Particle best);
 	std::string getSenseY(Particle best);
 
+	void write(std::string filename);
 	/**
 	 * initialized Returns whether particle filter is initialized yet or not.
 	 */
