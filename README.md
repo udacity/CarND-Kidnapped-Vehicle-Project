@@ -120,7 +120,7 @@ You can find the inputs to the particle filter in the `data` directory.
 [image1]: ./output/result.png "Output"
 
 ![alt text][image1]
-
+Here is the [output video](./output/KidnappedVehicle_ParticleFilter.mov).
 
 1. **Accuracy**: Does your particle filter localize the vehicle to within the desired accuracy?
 
@@ -133,6 +133,6 @@ Also, I got the messeage, ```Success! Your particle filter passed!```.
 The system time is ```65.46```, and, I got the message, ```Success! Your particle filter passed!```.
 
 3. **General**: Does your code use a particle filter to localize the robot?
-The particle filter is uitilized in [particle_filter.cpp](./src/particle_filter.cpp)
+The particle filter is uitilized in [src/particle_filter.cpp](./src/particle_filter.cpp)
 
 
