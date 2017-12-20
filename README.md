@@ -120,6 +120,7 @@ You can find the inputs to the particle filter in the `data` directory.
 [image1]: ./output/result.png "Output"
 
 ![alt text][image1]
+
 Here is the [output video](./output/KidnappedVehicle_ParticleFilter.mov).
 
 1. **Accuracy**: Does your particle filter localize the vehicle to within the desired accuracy?
