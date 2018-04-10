@@ -36,6 +36,8 @@ int main()
   double sigma_pos [3] = {0.3, 0.3, 0.01}; // GPS measurement uncertainty [x [m], y [m], theta [rad]]
   double sigma_landmark [2] = {0.3, 0.3}; // Landmark measurement uncertainty [x [m], y [m]]
 
+  const int numOfParticles = 100;
+
   // Read map data
   Map map;
   if (!read_map_data("../data/map_data.txt", map)) {
@@ -72,7 +74,7 @@ int main()
 			double sense_y = std::stod(j[1]["sense_y"].get<std::string>());
 			double sense_theta = std::stod(j[1]["sense_theta"].get<std::string>());
 
-			pf.init(sense_x, sense_y, sense_theta, sigma_pos);
+			pf.init(sense_x, sense_y, sense_theta, numOfParticles, sigma_pos);
 		  }
 		  else {
 			// Predict the vehicle's next state from previous (noiseless control) data.
