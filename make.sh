@@ -1,0 +1,2 @@
+echo "Compiling main.cpp"
+g++ -o build/main.out src/main.cpp src/particle_filter.cpp src/particle_filter.cpp -std=c++11 /usr/lib/libuWS.so /usr/lib/x86_64-linux-gnu/libssl.so /usr/lib/x86_64-linux-gnu/libz.so
