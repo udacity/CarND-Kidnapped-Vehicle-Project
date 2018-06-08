@@ -5,4 +5,4 @@ rm -rf build
 mkdir build
 ./make.sh
 cd build
-./ExtendedKF.out
+./main.out
