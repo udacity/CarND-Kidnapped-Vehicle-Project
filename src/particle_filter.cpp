@@ -9,15 +9,14 @@
 #include <algorithm>
 #include <iostream>
 #include <numeric>
-#include <math.h> 
+#include <cmath> 
+#include <vector>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <iterator>
 
 #include "particle_filter.h"
-
-using namespace std;
 
 void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// TODO: Set the number of particles. Initialize all particles to first position (based on estimates of 
@@ -65,42 +64,40 @@ void ParticleFilter::resample() {
 }
 
 Particle ParticleFilter::SetAssociations(Particle& particle, const std::vector<int>& associations, 
-                                     const std::vector<double>& sense_x, const std::vector<double>& sense_y)
-{
-    //particle: the particle to assign each listed association, and association's (x,y) world coordinates mapping to
-    // associations: The landmark id that goes along with each listed association
-    // sense_x: the associations x mapping already converted to world coordinates
-    // sense_y: the associations y mapping already converted to world coordinates
+                                     const std::vector<double>& sense_x, const std::vector<double>& sense_y) {
+	//particle: the particle to assign each listed association, and association's (x,y) world coordinates mapping to
+	// associations: The landmark id that goes along with each listed association
+	// sense_x: the associations x mapping already converted to world coordinates
+	// sense_y: the associations y mapping already converted to world coordinates
 
-    particle.associations= associations;
-    particle.sense_x = sense_x;
-    particle.sense_y = sense_y;
+	particle.associations = associations;
+	particle.sense_x = sense_x;
+	particle.sense_y = sense_y;
 }
 
-string ParticleFilter::getAssociations(Particle best)
-{
-	vector<int> v = best.associations;
-	stringstream ss;
-    copy( v.begin(), v.end(), ostream_iterator<int>(ss, " "));
-    string s = ss.str();
-    s = s.substr(0, s.length()-1);  // get rid of the trailing space
-    return s;
+std::string ParticleFilter::getAssociations(Particle best) {
+	std::vector<int> v = best.associations;
+	std::stringstream ss;
+	std::copy(v.begin(), v.end(), std::ostream_iterator<int>(ss, " "));
+	std::string s = ss.str();
+	s = s.substr(0, s.length()-1);  // get rid of the trailing space
+	return s;
 }
-string ParticleFilter::getSenseX(Particle best)
-{
-	vector<double> v = best.sense_x;
-	stringstream ss;
-    copy( v.begin(), v.end(), ostream_iterator<float>(ss, " "));
-    string s = ss.str();
-    s = s.substr(0, s.length()-1);  // get rid of the trailing space
-    return s;
+
+std::string ParticleFilter::getSenseX(Particle best) {
+	std::vector<double> v = best.sense_x;
+	std::stringstream ss;
+	std::copy(v.begin(), v.end(), std::ostream_iterator<float>(ss, " "));
+	std::string s = ss.str();
+	s = s.substr(0, s.length()-1);  // get rid of the trailing space
+	return s;
 }
-string ParticleFilter::getSenseY(Particle best)
-{
-	vector<double> v = best.sense_y;
-	stringstream ss;
-    copy( v.begin(), v.end(), ostream_iterator<float>(ss, " "));
-    string s = ss.str();
-    s = s.substr(0, s.length()-1);  // get rid of the trailing space
-    return s;
+
+std::string ParticleFilter::getSenseY(Particle best) {
+	std::vector<double> v = best.sense_y;
+	std::stringstream ss;
+	std::copy(v.begin(), v.end(), std::ostream_iterator<float>(ss, " "));
+	std::string s = ss.str();
+	s = s.substr(0, s.length()-1);  // get rid of the trailing space
+	return s;
 }

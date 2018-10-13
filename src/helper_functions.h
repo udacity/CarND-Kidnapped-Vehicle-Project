@@ -10,11 +10,11 @@
 
 #include <sstream>
 #include <fstream>
-#include <math.h>
+#include <cmath>
 #include <vector>
 #include "map.h"
 
-// for portability of M_PI (Vis Studio, MinGW, etc.)
+// for portability of M_PI (Visual Studio, MinGW, etc.)
 #ifndef M_PI
 const double M_PI = 3.14159265358979323846;
 #endif
@@ -77,7 +77,7 @@ inline double * getError(double gt_x, double gt_y, double gt_theta, double pf_x,
 inline bool read_map_data(std::string filename, Map& map) {
 
 	// Get file of map:
-	std::ifstream in_file_map(filename.c_str(),std::ifstream::in);
+	std::ifstream in_file_map(filename.c_str(), std::ifstream::in);
 	// Return if we can't open the file.
 	if (!in_file_map) {
 		return false;
@@ -87,7 +87,7 @@ inline bool read_map_data(std::string filename, Map& map) {
 	std::string line_map;
 
 	// Run over each single line:
-	while(getline(in_file_map, line_map)){
+	while (getline(in_file_map, line_map)) {
 
 		std::istringstream iss_map(line_map);
 
@@ -121,7 +121,7 @@ inline bool read_map_data(std::string filename, Map& map) {
 inline bool read_control_data(std::string filename, std::vector<control_s>& position_meas) {
 
 	// Get file of position measurements:
-	std::ifstream in_file_pos(filename.c_str(),std::ifstream::in);
+	std::ifstream in_file_pos(filename.c_str(), std::ifstream::in);
 	// Return if we can't open the file.
 	if (!in_file_pos) {
 		return false;
@@ -131,7 +131,7 @@ inline bool read_control_data(std::string filename, std::vector<control_s>& posi
 	std::string line_pos;
 
 	// Run over each single line:
-	while(getline(in_file_pos, line_pos)){
+	while (getline(in_file_pos, line_pos)) {
 
 		std::istringstream iss_pos(line_pos);
 
@@ -149,7 +149,7 @@ inline bool read_control_data(std::string filename, std::vector<control_s>& posi
 		
 		// Set values
 		meas.velocity = velocity;
-		meas.yawrate = yawrate;
+		meas.yawrate  = yawrate;
 
 		// Add to list of control measurements:
 		position_meas.push_back(meas);
@@ -164,7 +164,7 @@ inline bool read_control_data(std::string filename, std::vector<control_s>& posi
 inline bool read_gt_data(std::string filename, std::vector<ground_truth>& gt) {
 
 	// Get file of position measurements:
-	std::ifstream in_file_pos(filename.c_str(),std::ifstream::in);
+	std::ifstream in_file_pos(filename.c_str(), std::ifstream::in);
 	// Return if we can't open the file.
 	if (!in_file_pos) {
 		return false;
@@ -174,7 +174,7 @@ inline bool read_gt_data(std::string filename, std::vector<ground_truth>& gt) {
 	std::string line_pos;
 
 	// Run over each single line:
-	while(getline(in_file_pos, line_pos)){
+	while (getline(in_file_pos, line_pos)) {
 
 		std::istringstream iss_pos(line_pos);
 
@@ -207,7 +207,7 @@ inline bool read_gt_data(std::string filename, std::vector<ground_truth>& gt) {
 inline bool read_landmark_data(std::string filename, std::vector<LandmarkObs>& observations) {
 
 	// Get file of landmark measurements:
-	std::ifstream in_file_obs(filename.c_str(),std::ifstream::in);
+	std::ifstream in_file_obs(filename.c_str(), std::ifstream::in);
 	// Return if we can't open the file.
 	if (!in_file_obs) {
 		return false;
@@ -217,7 +217,7 @@ inline bool read_landmark_data(std::string filename, std::vector<LandmarkObs>& o
 	std::string line_obs;
 
 	// Run over each single line:
-	while(getline(in_file_obs, line_obs)){
+	while (getline(in_file_obs, line_obs)) {
 
 		std::istringstream iss_obs(line_obs);
 
