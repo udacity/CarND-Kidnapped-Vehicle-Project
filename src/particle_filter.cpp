@@ -7,7 +7,6 @@
 
 #include <random>
 #include <algorithm>
-#include <iostream>
 #include <numeric>
 #include <cmath> 
 #include <vector>
