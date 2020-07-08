@@ -30,7 +30,24 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
    * NOTE: Consult particle_filter.h for more information about this method 
    *   (and others in this file).
    */
-  num_particles = 0;  // TODO: Set the number of particles
+    num_particles = 200;  // TODO: Set the number of particles
+
+    normal_distribution<double> x_init(x, std[0]);
+    normal_distribution<double> y_init(y, std[1]);
+    normal_distribution<double> theta_init(theta, std[2]);
+
+    for (int i = 0; i < num_particles; i++) {
+        Particle particle;
+        particle.id = i;
+        particle.x = x + x_init(gen);
+        particle.y = y + y_init(gen);
+        particle.theta = theta + theta_init(gen);
+        particle.weight = 1.0;
+
+        particles.push_back(particle);
+    }
+
+    is_initialized = true;
 
 }
 
