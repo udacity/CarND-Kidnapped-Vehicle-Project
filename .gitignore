@@ -6,3 +6,4 @@ solution_data
 src/particle_filter_sol.cpp
 src/solutions
 # particle_filter.cpp
+.vscode
