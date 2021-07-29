@@ -57,6 +57,26 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
    *  http://www.cplusplus.com/reference/random/default_random_engine/
    */
 
+  std::random_device rd{};
+  std::mt19937 gen{rd()};
+ 
+  std::normal_distribution<> x_rd{0,std_pos[0]};
+  std::normal_distribution<> y_rd{0,std_pos[1]};
+  std::normal_distribution<> theta_rd{0,std_pos[2]};
+
+  for (auto currentParticle: particles)
+  {
+    // turn and add randomness
+    currentParticle.theta += yaw_rate + theta_rd(gen);
+
+    // move and add randomness
+    double distance = velocity * delta_t;
+    currentParticle.x += std::cos(yaw_rate) * distance + x_rd(gen);
+    currentParticle.y += std::sin(yaw_rate) * distance + x_rd(gen);
+
+    // TODO: cyclic truncate with world size is missing
+  }
+
 }
 
 void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted, 
