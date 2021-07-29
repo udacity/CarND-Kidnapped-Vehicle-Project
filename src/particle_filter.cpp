@@ -56,12 +56,16 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 void ParticleFilter::prediction(double delta_t, double std_pos[], 
                                 double velocity, double yaw_rate) {
   /**
-   * TODO: Add measurements to each particle and add random Gaussian noise.
+   * Add measurements to each particle and add random Gaussian noise.
    * NOTE: When adding noise you may find std::normal_distribution 
    *   and std::default_random_engine useful.
    *  http://en.cppreference.com/w/cpp/numeric/random/normal_distribution
    *  http://www.cplusplus.com/reference/random/default_random_engine/
    */
+  if (yaw_rate < __DBL_EPSILON__)
+  {
+    return;
+  }
 
   std::random_device rd{};
   std::mt19937 gen{rd()};
@@ -73,12 +77,13 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
   for (auto currentParticle: particles)
   {
     // turn and add randomness
-    currentParticle.theta += yaw_rate + theta_rd(gen);
-
+    double oldTeta = currentParticle.theta;
+    currentParticle.theta += yaw_rate*delta_t + theta_rd(gen);
+    
     // move and add randomness
-    double distance = velocity * delta_t;
-    currentParticle.x += std::cos(yaw_rate) * distance + x_rd(gen);
-    currentParticle.y += std::sin(yaw_rate) * distance + x_rd(gen);
+    double division = velocity / yaw_rate;
+    currentParticle.x += division * (std::sin(currentParticle.theta) - std::sin(oldTeta)) + x_rd(gen);
+    currentParticle.y += division * (std::cos(oldTeta) - std::sin(currentParticle.theta)) + y_rd(gen);
 
     // TODO: cyclic truncate with world size is missing
   }
