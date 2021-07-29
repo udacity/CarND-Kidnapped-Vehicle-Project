@@ -120,6 +120,47 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
    *   (look at equation 3.33) http://planning.cs.uiuc.edu/node99.html
    */
 
+  for (auto& currentParticle: particles)
+  {
+    currentParticle.weight = 1;
+
+    // Tranform obervations from car to map coordinates
+    for(const auto& observation:observations)
+    {
+      double x_map = std::cos(currentParticle.theta)*observation.x 
+        - std::sin(currentParticle.theta)*observation.y 
+        + currentParticle.x;
+      double y_map = std::sin(currentParticle.theta)*observation.x 
+        + std::cos(currentParticle.theta)*observation.y 
+        + currentParticle.y;
+
+      // search for neartest neighbour
+      double minDistance = sensor_range;
+      int association = -1;
+      for (const auto& landmark:map_landmarks.landmark_list)
+      {
+        double distance = dist(x_map, y_map, landmark.x_f, landmark.y_f);
+        if (minDistance > distance)
+        {
+          association = landmark.id_i;
+          minDistance = distance;
+        }
+      }
+      if (association > 0)
+      {
+        double mu_x = map_landmarks.landmark_list[association-1].x_f;
+        double mu_y = map_landmarks.landmark_list[association-1].y_f;
+        currentParticle.weight *= multiv_prob(std_landmark[0], std_landmark[1],
+          x_map, y_map, mu_x, mu_y);
+      }
+      
+      // debug data
+      // write directly instead of using SetAssociations()
+      currentParticle.associations.push_back(association);
+      currentParticle.sense_x.push_back(x_map);
+      currentParticle.sense_y.push_back(x_map);
+    }
+  }
 }
 
 void ParticleFilter::resample() {
