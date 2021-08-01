@@ -62,11 +62,28 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
    *  http://en.cppreference.com/w/cpp/numeric/random/normal_distribution
    *  http://www.cplusplus.com/reference/random/default_random_engine/
    */
+
+  for (auto currentParticle: particles)
+  {
   if (yaw_rate < __DBL_EPSILON__)
   {
-    return;
+      double length = velocity * delta_t;
+      currentParticle.x += length * std::cos(currentParticle.theta);
+      currentParticle.y += length * std::sin(currentParticle.theta);
+    }
+    else {
+      // turn
+      double oldTeta = currentParticle.theta;
+      currentParticle.theta += yaw_rate*delta_t;
+      
+      // move
+      double division = velocity / yaw_rate;
+      currentParticle.x += division * (std::sin(currentParticle.theta) - std::sin(oldTeta));
+      currentParticle.y += division * (std::cos(oldTeta) - std::cos(currentParticle.theta));
+
   }
 
+    // add randomness
   std::random_device rd{};
   std::mt19937 gen{rd()};
  
@@ -74,16 +91,9 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
   std::normal_distribution<> y_rd{0,std_pos[1]};
   std::normal_distribution<> theta_rd{0,std_pos[2]};
 
-  for (auto currentParticle: particles)
-  {
-    // turn and add randomness
-    double oldTeta = currentParticle.theta;
-    currentParticle.theta += yaw_rate*delta_t + theta_rd(gen);
-    
-    // move and add randomness
-    double division = velocity / yaw_rate;
-    currentParticle.x += division * (std::sin(currentParticle.theta) - std::sin(oldTeta)) + x_rd(gen);
-    currentParticle.y += division * (std::cos(oldTeta) - std::cos(currentParticle.theta)) + y_rd(gen);
+    currentParticle.x += x_rd(gen);
+    currentParticle.y += y_rd(gen);
+    currentParticle.theta += theta_rd(gen);
 
     // TODO: cyclic truncate with world size is missing
   }
