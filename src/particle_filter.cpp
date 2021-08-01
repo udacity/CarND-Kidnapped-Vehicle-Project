@@ -32,7 +32,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
    * NOTE: Consult particle_filter.h for more information about this method 
    *   (and others in this file).
    */
-  num_particles = 1000;  // TODO: Set the number of particles
+  num_particles = 100;  // TODO: Set the number of particles
 
   // (Gaussian) distribution for xm ym theta
   std::default_random_engine gen;
@@ -66,9 +66,9 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
    *  http://www.cplusplus.com/reference/random/default_random_engine/
    */
 
-  for (auto currentParticle: particles)
+  for (auto& currentParticle: particles)
   {
-    if (yaw_rate < __DBL_EPSILON__)
+    if (fabs(yaw_rate) < __DBL_EPSILON__)
     {
       double length = velocity * delta_t;
       currentParticle.x += length * std::cos(currentParticle.theta);
@@ -153,8 +153,8 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
       int association = -1;
       for (const auto& landmark:map_landmarks.landmark_list)
       {
-        double distanceToOberservation = dist(x_map, y_map, landmark.x_f, landmark.y_f);
-        double distanceToParticle = dist(currentParticle.x, currentParticle.y, landmark.x_f, landmark.y_f);
+        double distanceToOberservation = fabs(dist(x_map, y_map, landmark.x_f, landmark.y_f));
+        double distanceToParticle = fabs(dist(currentParticle.x, currentParticle.y, landmark.x_f, landmark.y_f));
         if (minDistance > distanceToOberservation && distanceToParticle < sensor_range)
         {
           association = landmark.id_i;
