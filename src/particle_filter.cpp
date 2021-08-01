@@ -114,7 +114,7 @@ void ParticleFilter::dataAssociation(vector<LandmarkObs> predicted,
 
 }
 
-void ParticleFilter::updateWeights(double sensor_range, double std_landmark[], 
+void ParticleFilter::updateWeights(const double sensor_range, const double std_landmark[], 
                                    const vector<LandmarkObs> &observations, 
                                    const Map &map_landmarks) {
   /**
@@ -133,6 +133,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
   for (auto& currentParticle: particles)
   {
+    //reset data
+    currentParticle.associations.clear();
+    currentParticle.sense_x.clear();
+    currentParticle.sense_y.clear();
     currentParticle.weight = 1;
     weights.clear();
 
@@ -140,11 +144,11 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
     // Tranform obervations from car to map coordinates
     for (const auto& observation:observations)
     {
-      double x_map = std::cos(currentParticle.theta)*observation.x 
-        - std::sin(currentParticle.theta)*observation.y 
+      const double x_map = cos(currentParticle.theta)*observation.x 
+        - sin(currentParticle.theta)*observation.y 
         + currentParticle.x;
-      double y_map = std::sin(currentParticle.theta)*observation.x 
-        + std::cos(currentParticle.theta)*observation.y 
+      const double y_map = sin(currentParticle.theta)*observation.x 
+        + cos(currentParticle.theta)*observation.y 
         + currentParticle.y;
 
       // search for neartest neighbour
@@ -173,6 +177,10 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
           x_map, y_map, mu_x, mu_y);
         currentParticle.weight = std::max(currentParticle.weight, __DBL_EPSILON__);
 
+      }
+      else{
+         std::cout << "No LM association found for particel:" << currentParticle.id 
+         << " observation:" << observation.id << std::endl;
       }
       
       // debug data
