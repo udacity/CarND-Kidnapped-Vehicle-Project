@@ -150,22 +150,25 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
       // search for neartest neighbour
       double minDistance = __DBL_MAX__;
       int association = -1;
+      double mu_x = 0;
+      double mu_y = 0;
       for (const auto& landmark:map_landmarks.landmark_list)
       {
-        double distanceToOberservation = fabs(dist(x_map, y_map, landmark.x_f, landmark.y_f));
-        double distanceToParticle = fabs(dist(currentParticle.x, currentParticle.y, landmark.x_f, landmark.y_f));
-        if (minDistance > distanceToOberservation && distanceToParticle < sensor_range)
+        double distanceToOberservation = (dist(x_map, y_map, landmark.x_f, landmark.y_f));
+        double distanceToParticle = (dist(landmark.x_f, landmark.y_f, currentParticle.x, currentParticle.y));
+        if (minDistance > distanceToOberservation && distanceToParticle <= sensor_range)
         {
-          association = landmark.id_i;
           minDistance = distanceToOberservation;
+
+          association = landmark.id_i;
+          mu_x = landmark.x_f;
+          mu_y = landmark.y_f;
         }
       }
 
       // if nearest neighbour is found
       if (association > -1)
       {
-        double mu_x = map_landmarks.landmark_list[association-1].x_f;
-        double mu_y = map_landmarks.landmark_list[association-1].y_f;
         currentParticle.weight *= multiv_prob(std_landmark[0], std_landmark[1],
           x_map, y_map, mu_x, mu_y);
         currentParticle.weight = std::max(currentParticle.weight, __DBL_EPSILON__);
@@ -184,7 +187,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
 
 void ParticleFilter::resample() {
   /**
-   * TODO: Resample particles with replacement with probability proportional 
+   * Resample particles with replacement with probability proportional 
    *   to their weight. 
    * NOTE: You may find std::discrete_distribution helpful here.
    *   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
