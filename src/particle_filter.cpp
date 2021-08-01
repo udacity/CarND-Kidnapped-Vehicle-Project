@@ -15,6 +15,8 @@
 #include <random>
 #include <string>
 #include <vector>
+#include <initializer_list>
+#include <map>
 
 #include "helper_functions.h"
 
@@ -65,8 +67,8 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
 
   for (auto currentParticle: particles)
   {
-  if (yaw_rate < __DBL_EPSILON__)
-  {
+    if (yaw_rate < __DBL_EPSILON__)
+    {
       double length = velocity * delta_t;
       currentParticle.x += length * std::cos(currentParticle.theta);
       currentParticle.y += length * std::sin(currentParticle.theta);
@@ -81,15 +83,15 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
       currentParticle.x += division * (std::sin(currentParticle.theta) - std::sin(oldTeta));
       currentParticle.y += division * (std::cos(oldTeta) - std::cos(currentParticle.theta));
 
-  }
+    }
 
     // add randomness
-  std::random_device rd{};
-  std::mt19937 gen{rd()};
- 
-  std::normal_distribution<> x_rd{0,std_pos[0]};
-  std::normal_distribution<> y_rd{0,std_pos[1]};
-  std::normal_distribution<> theta_rd{0,std_pos[2]};
+    std::random_device rd{};
+    std::mt19937 gen{rd()};
+  
+    std::normal_distribution<> x_rd{0,std_pos[0]};
+    std::normal_distribution<> y_rd{0,std_pos[1]};
+    std::normal_distribution<> theta_rd{0,std_pos[2]};
 
     currentParticle.x += x_rd(gen);
     currentParticle.y += y_rd(gen);
@@ -185,7 +187,23 @@ void ParticleFilter::resample() {
    * NOTE: You may find std::discrete_distribution helpful here.
    *   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
    */
+  std::random_device rd;
+  std::mt19937 gen(rd());
+  
+  std::vector<double> weights;  
+  for (auto& currentParticle: particles)
+  {
+    weights.push_back(currentParticle.weight);
+  }
 
+  std::discrete_distribution<> d(weights.begin(), weights.end());
+  
+  std::vector<Particle> new_partcle;
+  for(int n=0; n<num_particles; ++n) {
+    new_partcle.push_back(particles[d(gen)]);
+  }
+
+  particles = new_partcle;
 }
 
 void ParticleFilter::SetAssociations(Particle& particle, 
