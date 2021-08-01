@@ -49,6 +49,7 @@ struct LandmarkObs {
 };
 
 /**
+ * TODO: not used yet
  * Computes the Euclidean distance between two 2D points.
  * @param (x1,y1) x and y coordinates of first point
  * @param (x2,y2) x and y coordinates of second point
@@ -59,6 +60,7 @@ inline double dist(double x1, double y1, double x2, double y2) {
 }
 
 /**
+ * TODO: Not used yet
  * Computes the error between ground truth and particle filter data.
  * @param (gt_x, gt_y, gt_theta) x, y and theta of ground truth
  * @param (pf_x, pf_y, pf_theta) x, y and theta of particle filter
@@ -140,6 +142,7 @@ inline bool read_map_data(std::string filename, Map& map) {
 }
 
 /**
+ * TODO: Not used yet
  * Reads control data from a file.
  * @param filename Name of file containing control measurements.
  * @output True if opening and reading file was successful
@@ -182,6 +185,7 @@ inline bool read_control_data(std::string filename,
 }
 
 /**
+ * TODO: not used yet
  * Reads ground truth data from a file.
  * @param filename Name of file containing ground truth.
  * @output True if opening and reading file was successful
@@ -225,6 +229,7 @@ inline bool read_gt_data(std::string filename, std::vector<ground_truth>& gt) {
 }
 
 /**
+ * TODO: not used yet
  * Reads landmark observation data from a file.
  * @param filename Name of file containing landmark observation measurements.
  * @output True if opening and reading file was successful
