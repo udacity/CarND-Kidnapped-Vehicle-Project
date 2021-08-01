@@ -66,6 +66,13 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
    *  http://www.cplusplus.com/reference/random/default_random_engine/
    */
 
+    // add randomness
+    std::default_random_engine gen;
+  
+    std::normal_distribution<> x_rd{0,std_pos[0]};
+    std::normal_distribution<> y_rd{0,std_pos[1]};
+    std::normal_distribution<> theta_rd{0,std_pos[2]};
+
   for (auto& currentParticle: particles)
   {
     if (fabs(yaw_rate) < __DBL_EPSILON__)
@@ -77,7 +84,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
     else {
       // turn
       double oldTeta = currentParticle.theta;
-      currentParticle.theta += yaw_rate*delta_t;
+      currentParticle.theta += yaw_rate * delta_t;
       
       // move
       double division = velocity / yaw_rate;
@@ -85,14 +92,6 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
       currentParticle.y += division * (std::cos(oldTeta) - std::cos(currentParticle.theta));
 
     }
-
-    // add randomness
-    std::default_random_engine gen;
-  
-    std::normal_distribution<> x_rd{0,std_pos[0]};
-    std::normal_distribution<> y_rd{0,std_pos[1]};
-    std::normal_distribution<> theta_rd{0,std_pos[2]};
-
     currentParticle.x += x_rd(gen);
     currentParticle.y += y_rd(gen);
     currentParticle.theta += theta_rd(gen);
