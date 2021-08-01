@@ -83,7 +83,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
     // move and add randomness
     double division = velocity / yaw_rate;
     currentParticle.x += division * (std::sin(currentParticle.theta) - std::sin(oldTeta)) + x_rd(gen);
-    currentParticle.y += division * (std::cos(oldTeta) - std::sin(currentParticle.theta)) + y_rd(gen);
+    currentParticle.y += division * (std::cos(oldTeta) - std::cos(currentParticle.theta)) + y_rd(gen);
 
     // TODO: cyclic truncate with world size is missing
   }
@@ -158,7 +158,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
       // write directly instead of using SetAssociations()
       currentParticle.associations.push_back(association);
       currentParticle.sense_x.push_back(x_map);
-      currentParticle.sense_y.push_back(x_map);
+      currentParticle.sense_y.push_back(y_map);
     }
   }
 }
