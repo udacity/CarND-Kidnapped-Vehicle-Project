@@ -50,6 +50,7 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
     newParticle.weight = 1;
 
     particles.push_back(newParticle);
+    weights.push_back(newParticle.weight);
   }
 
   is_initialized = true;
@@ -135,9 +136,11 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
   for (auto& currentParticle: particles)
   {
     currentParticle.weight = 1;
+    weights.clear();
+
 
     // Tranform obervations from car to map coordinates
-    for(const auto& observation:observations)
+    for (const auto& observation:observations)
     {
       double x_map = std::cos(currentParticle.theta)*observation.x 
         - std::sin(currentParticle.theta)*observation.y 
@@ -187,19 +190,12 @@ void ParticleFilter::resample() {
    * NOTE: You may find std::discrete_distribution helpful here.
    *   http://en.cppreference.com/w/cpp/numeric/random/discrete_distribution
    */
-  std::random_device rd;
-  std::mt19937 gen(rd());
-  
-  std::vector<double> weights;  
-  for (auto& currentParticle: particles)
-  {
-    weights.push_back(currentParticle.weight);
-  }
+  std::default_random_engine gen;
 
   std::discrete_distribution<> d(weights.begin(), weights.end());
   
   std::vector<Particle> new_partcle;
-  for(int n=0; n<num_particles; ++n) {
+  for (int n=0; n<num_particles; ++n) {
     new_partcle.push_back(particles[d(gen)]);
   }
 
