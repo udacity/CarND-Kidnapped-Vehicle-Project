@@ -87,8 +87,7 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
     }
 
     // add randomness
-    std::random_device rd{};
-    std::mt19937 gen{rd()};
+    std::default_random_engine gen;
   
     std::normal_distribution<> x_rd{0,std_pos[0]};
     std::normal_distribution<> y_rd{0,std_pos[1]};
@@ -180,6 +179,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
       currentParticle.sense_x.push_back(x_map);
       currentParticle.sense_y.push_back(y_map);
     }
+    weights.push_back(currentParticle.weight);
   }
 }
 
