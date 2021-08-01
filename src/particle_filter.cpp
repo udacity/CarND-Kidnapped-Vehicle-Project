@@ -117,7 +117,7 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
                                    const vector<LandmarkObs> &observations, 
                                    const Map &map_landmarks) {
   /**
-   * TODO: Update the weights of each particle using a mult-variate Gaussian 
+   * Update the weights of each particle using a mult-variate Gaussian 
    *   distribution. You can read more about this distribution here: 
    *   https://en.wikipedia.org/wiki/Multivariate_normal_distribution
    * NOTE: The observations are given in the VEHICLE'S coordinate system. 
@@ -145,23 +145,28 @@ void ParticleFilter::updateWeights(double sensor_range, double std_landmark[],
         + currentParticle.y;
 
       // search for neartest neighbour
-      double minDistance = sensor_range;
+      double minDistance = __DBL_MAX__;
       int association = -1;
       for (const auto& landmark:map_landmarks.landmark_list)
       {
-        double distance = dist(x_map, y_map, landmark.x_f, landmark.y_f);
-        if (minDistance > distance)
+        double distanceToOberservation = dist(x_map, y_map, landmark.x_f, landmark.y_f);
+        double distanceToParticle = dist(currentParticle.x, currentParticle.y, landmark.x_f, landmark.y_f);
+        if (minDistance > distanceToOberservation && distanceToParticle < sensor_range)
         {
           association = landmark.id_i;
-          minDistance = distance;
+          minDistance = distanceToOberservation;
         }
       }
-      if (association > 0)
+
+      // if nearest neighbour is found
+      if (association > -1)
       {
         double mu_x = map_landmarks.landmark_list[association-1].x_f;
         double mu_y = map_landmarks.landmark_list[association-1].y_f;
         currentParticle.weight *= multiv_prob(std_landmark[0], std_landmark[1],
           x_map, y_map, mu_x, mu_y);
+        currentParticle.weight = std::max(currentParticle.weight, __DBL_EPSILON__);
+
       }
       
       // debug data
