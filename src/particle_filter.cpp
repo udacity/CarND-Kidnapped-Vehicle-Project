@@ -130,6 +130,7 @@ void ParticleFilter::updateWeights(const double sensor_range, const double std_l
    *   and the following is a good resource for the actual equation to implement
    *   (look at equation 3.33) http://planning.cs.uiuc.edu/node99.html
    */
+  weights.clear();
 
   for (auto& currentParticle: particles)
   {
@@ -138,17 +139,16 @@ void ParticleFilter::updateWeights(const double sensor_range, const double std_l
     currentParticle.sense_x.clear();
     currentParticle.sense_y.clear();
     currentParticle.weight = 1;
-    weights.clear();
 
 
     // Tranform obervations from car to map coordinates
-    for (const auto& observation:observations)
+    for (const auto& currentObservation:observations)
     {
-      const double x_map = cos(currentParticle.theta)*observation.x 
-        - sin(currentParticle.theta)*observation.y 
+      const double x_map = cos(currentParticle.theta)*currentObservation.x 
+        - sin(currentParticle.theta)*currentObservation.y 
         + currentParticle.x;
-      const double y_map = sin(currentParticle.theta)*observation.x 
-        + cos(currentParticle.theta)*observation.y 
+      const double y_map = sin(currentParticle.theta)*currentObservation.x 
+        + cos(currentParticle.theta)*currentObservation.y 
         + currentParticle.y;
 
       // search for neartest neighbour
@@ -156,17 +156,19 @@ void ParticleFilter::updateWeights(const double sensor_range, const double std_l
       int association = -1;
       double mu_x = 0;
       double mu_y = 0;
-      for (const auto& landmark:map_landmarks.landmark_list)
+      for (const auto& currentlandmark:map_landmarks.landmark_list)
       {
-        double distanceToOberservation = (dist(x_map, y_map, landmark.x_f, landmark.y_f));
-        double distanceToParticle = (dist(landmark.x_f, landmark.y_f, currentParticle.x, currentParticle.y));
-        if (minDistance > distanceToOberservation && distanceToParticle <= sensor_range)
+        double distanceToOberservation = dist(currentlandmark.x_f, currentlandmark.y_f, x_map, y_map);
+        double distanceToParticle = dist(currentlandmark.x_f, currentlandmark.y_f, currentParticle.x, currentParticle.y);
+        
+		  if (distanceToParticle <= sensor_range && distanceToOberservation < minDistance) //diff
         {
-          minDistance = distanceToOberservation;
+          // landmark is within detection range and nearer than previous landmark
+		  minDistance = distanceToOberservation;
 
-          association = landmark.id_i;
-          mu_x = landmark.x_f;
-          mu_y = landmark.y_f;
+          association = currentlandmark.id_i;
+          mu_x = currentlandmark.x_f;
+          mu_y = currentlandmark.y_f;
         }
       }
 
@@ -180,7 +182,7 @@ void ParticleFilter::updateWeights(const double sensor_range, const double std_l
       }
       else{
          std::cout << "No LM association found for particel:" << currentParticle.id 
-         << " observation:" << observation.id << std::endl;
+         << " observation:" << currentObservation.id << std::endl;
       }
       
       // debug data
