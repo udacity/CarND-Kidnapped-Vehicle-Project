@@ -69,9 +69,9 @@ void ParticleFilter::prediction(double delta_t, double std_pos[],
     // add randomness
     std::default_random_engine gen;
   
-    std::normal_distribution<> x_rd{0,std_pos[0]};
-    std::normal_distribution<> y_rd{0,std_pos[1]};
-    std::normal_distribution<> theta_rd{0,std_pos[2]};
+    std::normal_distribution<double> x_rd{0,std_pos[0]};
+    std::normal_distribution<double> y_rd{0,std_pos[1]};
+    std::normal_distribution<double> theta_rd{0,std_pos[2]};
 
   for (auto& currentParticle: particles)
   {
@@ -142,13 +142,15 @@ void ParticleFilter::updateWeights(const double sensor_range, const double std_l
 
 
     // Tranform obervations from car to map coordinates
+	  double cos_theta = cos(currentParticle.theta);
+    double sin_theta = sin(currentParticle.theta);
     for (const auto& currentObservation:observations)
     {
-      const double x_map = cos(currentParticle.theta)*currentObservation.x 
-        - sin(currentParticle.theta)*currentObservation.y 
+      const double x_map = cos_theta * currentObservation.x 
+        - sin_theta * currentObservation.y 
         + currentParticle.x;
-      const double y_map = sin(currentParticle.theta)*currentObservation.x 
-        + cos(currentParticle.theta)*currentObservation.y 
+      const double y_map = sin_theta * currentObservation.x 
+        + cos_theta * currentObservation.y 
         + currentParticle.y;
 
       // search for neartest neighbour
@@ -161,7 +163,7 @@ void ParticleFilter::updateWeights(const double sensor_range, const double std_l
         double distanceToOberservation = dist(currentlandmark.x_f, currentlandmark.y_f, x_map, y_map);
         double distanceToParticle = dist(currentlandmark.x_f, currentlandmark.y_f, currentParticle.x, currentParticle.y);
         
-		  if (distanceToParticle <= sensor_range && distanceToOberservation < minDistance) //diff
+		  if (distanceToParticle <= sensor_range && distanceToOberservation < minDistance)
         {
           // landmark is within detection range and nearer than previous landmark
 		  minDistance = distanceToOberservation;
@@ -177,7 +179,7 @@ void ParticleFilter::updateWeights(const double sensor_range, const double std_l
       {
         currentParticle.weight *= multiv_prob(std_landmark[0], std_landmark[1],
           x_map, y_map, mu_x, mu_y);
-        currentParticle.weight = std::max(currentParticle.weight, __DBL_EPSILON__);
+        //currentParticle.weight = std::max(currentParticle.weight, __DBL_EPSILON__);
 
       }
       else{
@@ -187,9 +189,9 @@ void ParticleFilter::updateWeights(const double sensor_range, const double std_l
       
       // debug data
       // write directly instead of using SetAssociations()
-      currentParticle.associations.push_back(association);
-      currentParticle.sense_x.push_back(x_map);
-      currentParticle.sense_y.push_back(y_map);
+      // currentParticle.associations.push_back(association);
+      // currentParticle.sense_x.push_back(x_map);
+      // currentParticle.sense_y.push_back(y_map);
     }
     weights.push_back(currentParticle.weight);
   }
